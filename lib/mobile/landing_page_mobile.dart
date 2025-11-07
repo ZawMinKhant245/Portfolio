@@ -270,8 +270,8 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
               height: 20,
             ),
             TabMobile(
-              title: 'Education',
-              route: '/education',
+              title: 'Project',
+              route: '/project',
             ),
             SizedBox(
               height: 20,

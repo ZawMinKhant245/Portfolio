@@ -323,3 +323,90 @@ class AbelCustom extends StatelessWidget {
     );
   }
 }
+
+class Project extends StatefulWidget {
+  final imagePath;
+  final projectName;
+  final description;
+  final width;
+  final height;
+  const Project({
+    super.key,
+    required this.imagePath,
+    required this.projectName,
+    required this.description,
+    this.width,
+    this.height,
+  });
+
+  @override
+  State<Project> createState() => _ProjectState();
+}
+
+class _ProjectState extends State<Project> {
+  bool expand = false;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AnimatedCardWidget(
+          imagePath: widget.imagePath,
+          width: widget.width == null ? 80 : widget.width,
+          height: widget.height == null ? 100 : widget.height,
+          fit: BoxFit.contain,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                border: Border.all(
+                    style: BorderStyle.solid, width: 1, color: Colors.black)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: AbelCustom(
+                        text: widget.projectName,
+                        size: 25,
+                        colors: Colors.white,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            expand = !expand;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.arrow_drop_down_circle_outlined,
+                          color: Colors.black,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  widget.description,
+                  style: GoogleFonts.openSans(fontSize: 15),
+                  maxLines: expand == true ? null : 3,
+                  overflow: expand == true
+                      ? TextOverflow.visible
+                      : TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

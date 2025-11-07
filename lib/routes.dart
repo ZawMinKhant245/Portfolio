@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/mobile/about_mobile.dart';
 import 'package:portfolio/mobile/contact_mobile.dart';
-import 'package:portfolio/mobile/education_mobile.dart';
+import 'package:portfolio/mobile/project_mobile.dart';
 import 'package:portfolio/mobile/landing_page_mobile.dart';
 import 'package:portfolio/web/about_web.dart';
 import 'package:portfolio/web/contact_web.dart';
-import 'package:portfolio/web/education_web.dart';
+import 'package:portfolio/web/project_web.dart';
 import 'package:portfolio/web/landing_page_web.dart';
 
 class Routes {
@@ -43,7 +43,7 @@ class Routes {
                     return AboutMobile();
                   }
                 }));
-      case '/education':
+      case '/project':
         return MaterialPageRoute(
             settings: settings,
             builder: (_) => LayoutBuilder(builder: (context, constraint) {

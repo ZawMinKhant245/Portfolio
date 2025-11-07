@@ -70,8 +70,8 @@ class _LandingPageWebState extends State<LandingPageWeb> {
             ),
             Spacer(),
             TabWeb(
-              title: "Education",
-              route: '/education',
+              title: "Project",
+              route: '/project',
             ),
             Spacer(),
             TabWeb(

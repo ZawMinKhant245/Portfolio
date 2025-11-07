@@ -69,8 +69,8 @@ class _AboutWebState extends State<AboutWeb> {
             ),
             Spacer(),
             TabWeb(
-              title: "Education",
-              route: '/education',
+              title: "Project",
+              route: '/project',
             ),
             Spacer(),
             TabWeb(
@@ -237,7 +237,7 @@ class _AboutWebState extends State<AboutWeb> {
                 ),
               ),
               AnimatedCardWidget(
-                imagePath: 'assets/web.jpg',
+                imagePath: 'assets/app.png',
                 height: 250,
                 width: 250,
                 reverse: true,
