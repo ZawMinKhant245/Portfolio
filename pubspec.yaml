@@ -38,6 +38,7 @@ dependencies:
   google_fonts:
   url_launcher: ^6.0.18
   dynamic_path_url_strategy: ^1.0.0
+  firebase_core: ^4.2.1
 
 dev_dependencies:
   flutter_test:
