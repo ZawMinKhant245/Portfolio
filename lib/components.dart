@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TabMobile extends StatefulWidget {
@@ -181,12 +183,16 @@ class TextFormFieldWidget extends StatelessWidget {
   final heading;
   final maxLine;
   final width;
+  final controller;
+  final validator;
   const TextFormFieldWidget(
       {required this.heading,
       required this.hintText,
       this.maxLine,
       this.width,
-      super.key});
+      super.key,
+      this.controller,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +209,8 @@ class TextFormFieldWidget extends StatelessWidget {
         SizedBox(
           width: width ?? 350,
           child: TextFormField(
+            validator: validator,
+            controller: controller,
             cursorColor: Colors.tealAccent,
             cursorWidth: 2.0,
             cursorHeight: 20,
@@ -210,9 +218,12 @@ class TextFormFieldWidget extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: GoogleFonts.poppins(fontSize: 14),
-                focusedErrorBorder: OutlineInputBorder(
+                errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red, width: 2),
                     borderRadius: BorderRadius.circular(10)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(15)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.teal, width: 2),
                     borderRadius: BorderRadius.circular(10)),
@@ -409,4 +420,46 @@ class _ProjectState extends State<Project> {
       ],
     );
   }
+}
+
+class AddDataToFirebase {
+  final logger = Logger();
+
+  final CollectionReference _messages =
+      FirebaseFirestore.instance.collection("messages");
+
+  Future<void> addResponse(
+    String firstName,
+    String lastName,
+    String email,
+    String phone,
+    String message,
+  ) async {
+    try {
+      await _messages.add({
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'phone': phone,
+        'message': message,
+      });
+
+      logger.d("Success");
+    } catch (e) {
+      logger.e("Error adding data: $e");
+    }
+  }
+}
+
+Future DialogError(BuildContext context, String message) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: SansBold(
+              text: message,
+              size: 20,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ));
 }

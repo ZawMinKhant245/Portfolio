@@ -72,4 +72,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'myportfolioapp-1fa88.firebasestorage.app',
     iosBundleId: 'com.example.portfolio',
   );
+
 }

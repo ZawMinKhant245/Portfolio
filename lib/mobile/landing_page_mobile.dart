@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:portfolio/components.dart';
 
 class LandingPageMobile extends StatefulWidget {
@@ -9,6 +10,13 @@ class LandingPageMobile extends StatefulWidget {
 }
 
 class _LandingPageMobileState extends State<LandingPageMobile> {
+  var logger = Logger();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var widthDevice = MediaQuery.of(context).size.width;
@@ -206,46 +214,94 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                 text: "Contact me",
                 size: 25,
               ),
-              Column(
-                children: [
-                  const TextFormFieldWidget(
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormFieldWidget(
                       heading: 'First name',
-                      hintText: "Please type first name"),
-                  const TextFormFieldWidget(
-                      heading: 'Last name', hintText: "Please type last name"),
-                  const TextFormFieldWidget(
-                      heading: 'Email name',
-                      hintText: "Please type email name"),
-                  const TextFormFieldWidget(
-                      heading: 'Phone number ',
-                      hintText: "Please type phone number"),
-                  TextFormFieldWidget(
-                    heading: 'Message',
-                    hintText: "Please type your message to me",
-                    width: widthDevice / 1.5,
-                    maxLine: 6,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.tealAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: SansBold(
-                        text: 'Submit',
-                        size: 20,
+                      hintText: 'Please type first name',
+                      controller: _firstNameController,
+                      validator: (text) {
+                        if (text.toString().isEmpty) {
+                          return "first name required";
+                        }
+                      },
+                    ),
+                    TextFormFieldWidget(
+                        validator: (text) {
+                          if (text.toString().isEmpty) {
+                            return "last name required";
+                          }
+                        },
+                        controller: _lastNameController,
+                        heading: 'Last name',
+                        hintText: 'Please type last name'),
+                    TextFormFieldWidget(
+                        validator: (text) {
+                          if (text.toString().isEmpty) {
+                            return "email  required";
+                          }
+                        },
+                        controller: _emailController,
+                        heading: 'Email',
+                        hintText: 'Please type email'),
+                    TextFormFieldWidget(
+                        controller: _phoneNumberController,
+                        validator: (text) {
+                          if (text.toString().isEmpty) {
+                            return "phone number required";
+                          }
+                        },
+                        heading: 'Phone number',
+                        hintText: 'Please type phone number'),
+                    TextFormFieldWidget(
+                      controller: _messageController,
+                      heading: 'Message',
+                      hintText: "Please type your message to me",
+                      width: widthDevice / 1.5,
+                      maxLine: 6,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        logger.d(_firstNameController.text);
+                        if (formKey.currentState!.validate()) {
+                          await AddDataToFirebase().addResponse(
+                            _firstNameController.text.trim(),
+                            _lastNameController.text.trim(),
+                            _emailController.text.trim(),
+                            _phoneNumberController.text.trim(),
+                            _messageController.text.trim(),
+                          );
+                          _firstNameController.clear();
+                          _lastNameController.clear();
+                          _emailController.clear();
+                          _phoneNumberController.clear();
+                          _messageController.clear();
+                          DialogError(context, "Message Submitted");
+                        }
+                        // formKey.currentState!.reset();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.tealAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SansBold(
+                          text: 'Submit',
+                          size: 20,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  )
-                ],
+                    const SizedBox(
+                      height: 40,
+                    )
+                  ],
+                ),
               ),
             ],
           ),

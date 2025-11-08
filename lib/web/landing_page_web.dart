@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:portfolio/components.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +12,13 @@ class LandingPageWeb extends StatefulWidget {
 }
 
 class _LandingPageWebState extends State<LandingPageWeb> {
+  var logger = Logger();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -296,64 +304,112 @@ class _LandingPageWebState extends State<LandingPageWeb> {
           //Forth Page
           SizedBox(
             height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SansBold(
-                  text: "Contact Me",
-                  size: 40,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        TextFormFieldWidget(
-                            heading: 'First name',
-                            hintText: 'Please type first name'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldWidget(
-                            heading: 'Email', hintText: 'Please type email')
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        TextFormFieldWidget(
-                            heading: 'Last name',
-                            hintText: 'Please type last name'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldWidget(
-                            heading: 'Phone number',
-                            hintText: 'Please type phone number')
-                      ],
-                    )
-                  ],
-                ),
-                TextFormFieldWidget(
-                  heading: 'Message',
-                  hintText: "Please type your message to me",
-                  width: width / 1.2,
-                  maxLine: 6,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.tealAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SansBold(
-                      text: 'Submit',
-                      size: 20,
-                    ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SansBold(
+                    text: "Contact Me",
+                    size: 40,
                   ),
-                )
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          TextFormFieldWidget(
+                            heading: 'First name',
+                            hintText: 'Please type first name',
+                            controller: _firstNameController,
+                            validator: (text) {
+                              if (text.toString().isEmpty) {
+                                return "first name required";
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormFieldWidget(
+                              validator: (text) {
+                                if (text.toString().isEmpty) {
+                                  return "email  required";
+                                }
+                              },
+                              controller: _emailController,
+                              heading: 'Email',
+                              hintText: 'Please type email')
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          TextFormFieldWidget(
+                              validator: (text) {
+                                if (text.toString().isEmpty) {
+                                  return "last name required";
+                                }
+                              },
+                              controller: _lastNameController,
+                              heading: 'Last name',
+                              hintText: 'Please type last name'),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormFieldWidget(
+                              controller: _phoneNumberController,
+                              validator: (text) {
+                                if (text.toString().isEmpty) {
+                                  return "phone number required";
+                                }
+                              },
+                              heading: 'Phone number',
+                              hintText: 'Please type phone number')
+                        ],
+                      )
+                    ],
+                  ),
+                  TextFormFieldWidget(
+                    controller: _messageController,
+                    heading: 'Message',
+                    hintText: "Please type your message to me",
+                    width: width / 1.2,
+                    maxLine: 6,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      logger.d(_firstNameController.text);
+                      if (formKey.currentState!.validate()) {
+                        await AddDataToFirebase().addResponse(
+                          _firstNameController.text.trim(),
+                          _lastNameController.text.trim(),
+                          _emailController.text.trim(),
+                          _phoneNumberController.text.trim(),
+                          _messageController.text.trim(),
+                        );
+                        _firstNameController.clear();
+                        _lastNameController.clear();
+                        _emailController.clear();
+                        _phoneNumberController.clear();
+                        _messageController.clear();
+                        DialogError(context, "Message Submitted");
+                      }
+                      // formKey.currentState!.reset();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.tealAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SansBold(
+                        text: 'Submit',
+                        size: 20,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],

@@ -39,6 +39,8 @@ dependencies:
   url_launcher: ^6.0.18
   dynamic_path_url_strategy: ^1.0.0
   firebase_core: ^4.2.1
+  cloud_firestore: ^6.1.0
+  logger: ^2.6.2
 
 dev_dependencies:
   flutter_test:
