@@ -12,89 +12,17 @@ class LandingPageWeb extends StatefulWidget {
 }
 
 class _LandingPageWebState extends State<LandingPageWeb> {
-  var logger = Logger();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _messageController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 72,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage("assets/meCircle.png"),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SansBold(
-              text: "Zaw Min Khant",
-              size: 32,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                UrlLauncher().urlanucher("assets/facebook.png",
-                    "https://web.facebook.com/zaw.min.khant.390017/", 30),
-                UrlLauncher().urlanucher("assets/github.png",
-                    "https://github.com/ZawMinKhant245", 30),
-                UrlLauncher().urlanucher("assets/instagram.png",
-                    "https://www.instagram.com/khant.zzzz/", 26),
-              ],
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerWeb(),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.2,
-        // iconTheme: IconThemeData(size: 25, color: Colors.black),
-        title: const Row(
-          children: [
-            Spacer(
-              flex: 5,
-            ),
-            TabWeb(
-              title: "Home",
-              route: '/',
-            ),
-            Spacer(),
-            TabWeb(
-              title: "Project",
-              route: '/project',
-            ),
-            Spacer(),
-            TabWeb(
-              title: "About",
-              route: "/about",
-            ),
-            Spacer(),
-            TabWeb(
-              title: "Contact",
-              route: '/contact',
-            ),
-            Spacer(),
-          ],
-        ),
-      ),
+          backgroundColor: Colors.white,
+          elevation: 0.2,
+          // iconTheme: IconThemeData(size: 25, color: Colors.black),
+          title: TabWebList()),
       body: ListView(
         children: [
           SizedBox(
@@ -304,113 +232,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
           //Forth Page
           SizedBox(
             height: height,
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SansBold(
-                    text: "Contact Me",
-                    size: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          TextFormFieldWidget(
-                            heading: 'First name',
-                            hintText: 'Please type first name',
-                            controller: _firstNameController,
-                            validator: (text) {
-                              if (text.toString().isEmpty) {
-                                return "first name required";
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormFieldWidget(
-                              validator: (text) {
-                                if (text.toString().isEmpty) {
-                                  return "email  required";
-                                }
-                              },
-                              controller: _emailController,
-                              heading: 'Email',
-                              hintText: 'Please type email')
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          TextFormFieldWidget(
-                              validator: (text) {
-                                if (text.toString().isEmpty) {
-                                  return "last name required";
-                                }
-                              },
-                              controller: _lastNameController,
-                              heading: 'Last name',
-                              hintText: 'Please type last name'),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormFieldWidget(
-                              controller: _phoneNumberController,
-                              validator: (text) {
-                                if (text.toString().isEmpty) {
-                                  return "phone number required";
-                                }
-                              },
-                              heading: 'Phone number',
-                              hintText: 'Please type phone number')
-                        ],
-                      )
-                    ],
-                  ),
-                  TextFormFieldWidget(
-                    controller: _messageController,
-                    heading: 'Message',
-                    hintText: "Please type your message to me",
-                    width: width / 1.2,
-                    maxLine: 6,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      logger.d(_firstNameController.text);
-                      if (formKey.currentState!.validate()) {
-                        await AddDataToFirebase().addResponse(
-                          _firstNameController.text.trim(),
-                          _lastNameController.text.trim(),
-                          _emailController.text.trim(),
-                          _phoneNumberController.text.trim(),
-                          _messageController.text.trim(),
-                        );
-                        _firstNameController.clear();
-                        _lastNameController.clear();
-                        _emailController.clear();
-                        _phoneNumberController.clear();
-                        _messageController.clear();
-                        DialogError(context, "Message Submitted");
-                      }
-                      // formKey.currentState!.reset();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.tealAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: SansBold(
-                        text: 'Submit',
-                        size: 20,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            child: FormWeb(),
           ),
         ],
       ),

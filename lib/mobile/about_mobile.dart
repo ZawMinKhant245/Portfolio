@@ -21,60 +21,7 @@ class _AboutMobileState extends State<AboutMobile> {
         elevation: 0.0,
         iconTheme: IconThemeData(size: 35, color: Colors.black),
       ),
-      endDrawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DrawerHeader(
-                child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.black, width: 2)),
-              child: Image.asset("assets/meCircle.png"),
-            )),
-            TabMobile(
-              title: 'Home',
-              route: '/',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TabMobile(
-              title: 'Project',
-              route: '/project',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TabMobile(
-              title: 'About',
-              route: '/about',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            const TabMobile(
-              title: 'Contact',
-              route: '/contact',
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                UrlLauncher().urlanucher("assets/facebook.png",
-                    "https://web.facebook.com/zaw.min.khant.390017/", 30),
-                UrlLauncher().urlanucher("assets/github.png",
-                    "https://github.com/ZawMinKhant245", 30),
-                UrlLauncher().urlanucher("assets/instagram.png",
-                    "https://www.instagram.com/khant.zzzz/", 26),
-              ],
-            ),
-          ],
-        ),
-      ),
+      endDrawer: DrawerMobile(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: ListView(

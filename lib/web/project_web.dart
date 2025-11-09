@@ -20,44 +20,7 @@ class _EducationWebState extends State<EducationWeb> {
         child: Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 72,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage("assets/meCircle.png"),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            SansBold(
-              text: "Zaw Min Khant",
-              size: 30,
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                UrlLauncher().urlanucher("assets/facebook.png",
-                    "https://web.facebook.com/zaw.min.khant.390017/", 30),
-                UrlLauncher().urlanucher("assets/github.png",
-                    "https://github.com/ZawMinKhant245", 30),
-                UrlLauncher().urlanucher("assets/instagram.png",
-                    "https://www.instagram.com/khant.zzzz/", 26),
-              ],
-            )
-          ],
-        ),
-      ),
+      drawer: DrawerWeb(),
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -75,33 +38,7 @@ class _EducationWebState extends State<EducationWeb> {
                     filterQuality: FilterQuality.high,
                   ),
                 ),
-                title: const Row(
-                  children: [
-                    Spacer(
-                      flex: 5,
-                    ),
-                    TabWeb(
-                      title: "Home",
-                      route: '/',
-                    ),
-                    Spacer(),
-                    TabWeb(
-                      title: "Project",
-                      route: '/project',
-                    ),
-                    Spacer(),
-                    TabWeb(
-                      title: "About",
-                      route: "/about",
-                    ),
-                    Spacer(),
-                    TabWeb(
-                      title: "Contact",
-                      route: '/contact',
-                    ),
-                    Spacer(),
-                  ],
-                ),
+                title: TabWebList(),
               ),
             ];
           },

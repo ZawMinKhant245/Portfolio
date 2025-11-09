@@ -15,76 +15,13 @@ class _AboutWebState extends State<AboutWeb> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 72,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage("assets/meCircle.png"),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SansBold(
-              text: "Zaw Min Khant",
-              size: 32,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                UrlLauncher().urlanucher("assets/facebook.png",
-                    "https://web.facebook.com/zaw.min.khant.390017/", 30),
-                UrlLauncher().urlanucher("assets/github.png",
-                    "https://github.com/ZawMinKhant245", 30),
-                UrlLauncher().urlanucher("assets/instagram.png",
-                    "https://www.instagram.com/khant.zzzz/", 26),
-              ],
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerWeb(),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.2,
         // iconTheme: IconThemeData(size: 25, color: Colors.black),
-        title: const Row(
-          children: [
-            Spacer(
-              flex: 5,
-            ),
-            TabWeb(
-              title: "Home",
-              route: '/',
-            ),
-            Spacer(),
-            TabWeb(
-              title: "Project",
-              route: '/project',
-            ),
-            Spacer(),
-            TabWeb(
-              title: "About",
-              route: "/about",
-            ),
-            Spacer(),
-            TabWeb(
-              title: "Contact",
-              route: '/contact',
-            ),
-            Spacer(),
-          ],
-        ),
+        title: TabWebList(),
       ),
       body: ListView(
         children: [
