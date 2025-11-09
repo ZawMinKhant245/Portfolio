@@ -455,9 +455,11 @@ Future DialogError(BuildContext context, String message) {
   return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-            title: SansBold(
-              text: message,
-              size: 20,
+            title: Center(
+              child: SansBold(
+                text: message,
+                size: 20,
+              ),
             ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
